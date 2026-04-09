@@ -1,11 +1,12 @@
 import connectDB from "@/lib/mongodb";
 import Contact from "@/models/Contact";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(request: NextRequest) {
   try {
     await connectDB();
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(request.url);
     const date = searchParams.get("date");
 
     let query = {};
@@ -39,10 +40,10 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    const data = await req.json();
+    const data = await request.json();
 
     if (!data.name || !data.email || !data.message) {
       return NextResponse.json(

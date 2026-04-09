@@ -1,15 +1,16 @@
 import connectDB from "@/lib/mongodb";
 import Contact from "@/models/Contact";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     
-    // Await the params to ensure it's resolved
+    // Await the params to get the id
     const { id } = await params;
     
     console.log("Deleting contact with ID:", id);
@@ -39,6 +40,41 @@ export async function DELETE(
     console.error("DELETE Error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to delete submission" },
+      { status: 500 }
+    );
+  }
+}
+
+// Optional: Add GET by ID if needed
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "No ID provided" },
+        { status: 400 }
+      );
+    }
+
+    const contact = await Contact.findById(id);
+
+    if (!contact) {
+      return NextResponse.json(
+        { error: "Submission not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(contact, { status: 200 });
+  } catch (error) {
+    console.error("GET Error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch submission" },
       { status: 500 }
     );
   }

@@ -87,7 +87,7 @@ const FAQSection = () => {
                   <motion.div
                     animate={{ rotate: activeIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex-shrink-0"
+                    className="shrink-0"
                   >
                     <svg
                       className="w-5 h-5 text-blue-500"
