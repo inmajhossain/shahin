@@ -21,20 +21,22 @@ export default function DashboardPage() {
   const loadSubmissions = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/contacts");
+      const response = await fetch("/api/contacts", {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json().catch(() => null);
+        throw new Error(result?.error || `Failed to load submissions (${response.status})`);
       }
       
       const data = await response.json();
-      console.log("Loaded submissions:", data); // Debug log
-      
       setSubmissions(data);
       setError(null);
     } catch (error) {
       console.error("Error loading submissions:", error);
-      setError("Failed to load submissions");
+      setError(error instanceof Error ? error.message : "Failed to load submissions");
     } finally {
       setLoading(false);
     }
@@ -52,6 +54,7 @@ export default function DashboardPage() {
     try {
       const response = await fetch(`/api/contacts/${id}`, {
         method: "DELETE",
+        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
         },
@@ -66,7 +69,7 @@ export default function DashboardPage() {
       }
 
       // Remove from UI
-      setSubmissions(submissions.filter(sub => sub._id !== id));
+      setSubmissions((current) => current.filter((sub) => sub._id !== id));
       setSuccess("Submission deleted successfully!");
       setTimeout(() => setSuccess(null), 3000);
     } catch (error) {

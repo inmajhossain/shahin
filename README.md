@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inmaj — Creative Developer Portfolio
+
+A motion-led portfolio built with Next.js 16, React 19, Tailwind CSS 4, Framer Motion, Lenis, and MongoDB.
+
+## Environment
+
+Copy `.env.example` to `.env` and configure MongoDB plus the dashboard credentials. The public contact form remains available while `/dashboard` and contact-management API requests use HTTP Basic authentication.
+
+For Gmail contact notifications, enable 2-Step Verification on the sender account, create a Google App Password, and configure `GMAIL_USER`, `GMAIL_APP_PASSWORD`, and `CONTACT_EMAIL`. Add the same variables to the deployment environment (for example, Vercel), then redeploy. Never use or commit the normal Gmail account password.
 
 ## Getting Started
 

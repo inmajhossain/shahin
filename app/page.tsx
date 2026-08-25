@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/ui/Navbar";
-import { Hero } from "@/components/sections/Hero";
+import { Hero, HeroMarquee } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
@@ -13,6 +13,7 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <HeroMarquee />
       <About />
       <Skills />
       <Projects />
